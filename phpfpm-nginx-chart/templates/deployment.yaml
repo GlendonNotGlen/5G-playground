@@ -19,18 +19,12 @@ spec:
         - name: nginx-config-volume
           configMap:
             name: nginx-config
-        - name: host-folder  # Add the hostPath volume
-          hostPath:
-            path: /home/ubu22/vulnerable_folder  # Path on the host node
-            type: Directory   # Ensure the path is a directory
       containers:
         - name: app
           image: {{ .Values.phpImage.repository }}:{{ .Values.phpImage.tag }}
           volumeMounts:
             - name: shared-files
               mountPath: /var/www/html
-            - name: host-folder  # Mount the hostPath volume in the container
-              mountPath: /mnt/host-data  # Path inside the container where it will be mounted
           lifecycle:
             postStart:
               exec:

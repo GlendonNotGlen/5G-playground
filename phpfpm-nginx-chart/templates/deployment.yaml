@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpfpm-nginx-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpfpm-nnginx
+  template:
+    metadata:
+      labels:
+        app: phpfpm-nnginx
+    spec:
+      volumes:
+        - name: shared-files
+          emptyDir: {}
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-config
+        - name: host-folder  # Add the hostPath volume
+          hostPath:
+            path: /home/ubu22/vulnerable_folder  # Path on the host node
+            type: Directory   # Ensure the path is a directory
+      containers:
+        - name: app
+          image: {{ .Values.phpImage.repository }}:{{ .Values.phpImage.tag }}
+          volumeMounts:
+            - name: shared-files
+              mountPath: /var/www/html
+            - name: host-folder  # Mount the hostPath volume in the container
+              mountPath: /mnt/host-data  # Path inside the container where it will be mounted
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "cp -r /app/. /var/www/html"]
+        - name: nginx
+          image: {{ .Values.nginxImage.repository }}:{{ .Values.nginxImage.tag }}
+          volumeMounts:
+            - name: shared-files
+              mountPath: /var/www/html
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf

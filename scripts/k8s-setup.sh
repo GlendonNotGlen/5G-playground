@@ -26,7 +26,7 @@ microk8s helm install phpfpm-nginx-release $(pwd)/test1/phpfpm-nginx-chart --nam
 ### if there are errors 
 #microk8s helm upgrade my-open5gs $(pwd)/test1/open5gs-2.2.3/open5gs --namespace your-namespace --values $(pwd)/test1/helms/5gSA-values.yaml
 #microk8s helm upgrade my-ueransim-gnb $(pwd)/test1/ueransim-gnb-0.2.6/ueransim-gnb --namespace your-namespace --values $(pwd)/test1/helms/my-gnb-ues-values.yaml
-microk8s helm upgrade phpfpm-nginx-release $(pwd)/test1/phpfpm-nginx-chart --namespace your-namespace
+#microk8s helm upgrade phpfpm-nginx-release $(pwd)/test1/phpfpm-nginx-chart --namespace your-namespace
 
 
 ### uninstall helm charts, when done or if errors cannot be fixed

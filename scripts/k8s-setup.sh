@@ -4,7 +4,7 @@ microk8s enable hostpath-storage
 microk8s enable dns
 microk8s enable ingress
 microk8s enable metallb
-# manual input 2
+# manual input 1
 ### 192.168.137.240-192.168.137.250
 microk8s kubectl apply -f $(pwd)/test1/helms/addresspool.yaml
 
@@ -15,7 +15,7 @@ microk8s helm install my-ueransim-gnb $(pwd)/test1/ueransim-gnb-0.2.6/ueransim-g
 
 sudo snap install docker
 sudo docker build $(pwd)/test1/php1 -t my-php-app:1.0.0
-sudo docker save my-php-app:1.0.0 > my-php-app.tar
+sudo docker save my-php-app:1.0.0 > $(pwd)/test1/php1/my-php-app.tar
 microk8s ctr image import $(pwd)/test1/php1/my-php-app.tar
 microk8s helm install phpfpm-nginx-release $(pwd)/test1/phpfpm-nginx-chart --namespace your-namespace
 

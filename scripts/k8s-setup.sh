@@ -5,9 +5,7 @@ microk8s enable host-access
 microk8s enable hostpath-storage
 microk8s enable dns
 microk8s enable ingress
-microk8s enable metallb
-### THIS PART REQUIRES MANUAL INPUT to set the range of IP addresses for metallb
-# 192.168.137.240-192.168.137.250
+microk8s enable metallb:192.168.137.240-192.168.137.250
 microk8s kubectl apply -f $(pwd)/test1/helms/addresspool.yaml
 
 # using helm charts to set up environment (open5gs and UERANSIM)

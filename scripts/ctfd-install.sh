@@ -1,8 +1,6 @@
 ### CTFd code
 # Install Docker via Snap
 sudo snap install docker
-# Install Git
-sudo apt install git
 # Clone the CTFd repository into the current working directory
 git clone https://github.com/CTFd/CTFd.git $(pwd)/CTFd
 # Copy custom configuration to the CTFd folder (change nginx port from 80 to 8080)

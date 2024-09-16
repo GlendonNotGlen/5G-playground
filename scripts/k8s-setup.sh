@@ -12,7 +12,7 @@ microk8s kubectl apply -f $(pwd)/5G-playground/helms/addresspool.yaml
 microk8s kubectl create namespace your-namespace
 microk8s kubectl config set-context --current --namespace=your-namespace
 microk8s helm install my-open5gs $(pwd)/5G-playground/open5gs-2.2.3/open5gs --namespace your-namespace --values $(pwd)/5G-playground/helms/5gSA-values.yaml
-sleep 10s
+sleep 90s
 microk8s helm install my-ueransim-gnb $(pwd)/5G-playground/ueransim-gnb-0.2.6/ueransim-gnb --namespace your-namespace --values $(pwd)/5G-playground/helms/my-gnb-ues-values.yaml
 
 # setting up of vulnerable web server

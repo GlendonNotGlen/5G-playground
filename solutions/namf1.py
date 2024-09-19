@@ -10,7 +10,7 @@ from hyper import HTTP20Connection  # Import HTTP2 connection
 
 try:
     # Create a connection to the AMF
-    c = HTTP20Connection('192.168.137.137:32002')
+    c = HTTP20Connection('192.168.137.138:32002')
 
     # Set the request headers
     headers = {

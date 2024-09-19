@@ -5,7 +5,30 @@ microk8s enable host-access
 microk8s enable hostpath-storage
 microk8s enable dns
 microk8s enable ingress
-microk8s enable metallb:192.168.137.240-192.168.137.250
+microk8s enable metallb:192.168.137.240-192.168.137.250 ### change this based on IP address of VM
+
+
+# Get the first IP of the host (assuming it is on the desired interface)
+HOST_IP=$(hostname -I | awk '{print $1}')
+# Calculate the subnet of the HOST_IP (e.g., 192.168.137.0)
+SUBNET=$(echo "$HOST_IP" | awk -F. '{print $1"."$2"."$3".0"}')
+### ENSURE THAT HOST IP DOES NOT FALL INTO THIS RANGE
+# Define the start and end of the IP range within the same subnet
+START_IP=$(echo "$HOST_IP" | awk -F. '{print $1"."$2"."$3".220"}')
+END_IP=$(echo "$HOST_IP" | awk -F. '{print $1"."$2"."$3".222"}')
+# Generate the addresspool.yaml dynamically with the correct IP range
+cat <<EOF > $(pwd)/5G-playground/helms/addresspool.yaml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: custom-addresspool
+  namespace: metallb-system
+spec: 
+  addresses:
+  - ${START_IP}-${END_IP}
+EOF
+
+# Apply the addresspool.yaml to Kubernetes
 microk8s kubectl apply -f $(pwd)/5G-playground/helms/addresspool.yaml
 
 # using helm charts to set up environment (open5gs and UERANSIM)
@@ -24,9 +47,7 @@ sudo docker save my-php-app:1.0.0 > $(pwd)/5G-playground/php1/my-php-app.tar
 microk8s ctr image import $(pwd)/5G-playground/php1/my-php-app.tar
 
 
-### setting up the ingress for dynamic IP
-# Get Host IP (first IP in case multiple)
-HOST_IP=$(hostname -I | awk '{print $1}')
+
 # Get Endpoint IPs from Kubernetes
 ENDPOINT_IPS=$(microk8s kubectl get endpoints my-open5gs-webui -o jsonpath='{.subsets[*].addresses[*].ip}')
 # Replace the last tuple with '1'
@@ -65,4 +86,3 @@ microk8s helm install phpfpm-nginx-release $(pwd)/5G-playground/phpfpm-nginx-cha
 #microk8s helm uninstall -n your-namespace phpfpm-nginx-release
 #microk8s helm uninstall -n your-namespace my-ueransim-gnb
 #microk8s helm uninstall -n your-namespace my-open5gs
-

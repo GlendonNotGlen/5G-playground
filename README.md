@@ -43,9 +43,19 @@ cd 5G-playground/scripts/
 <p id="bkmrk-wait-for-5-10-min-af">Wait for 5-10 min after the installation process has completed for the open5GS setup to be fully functional.</p>
 <h1 id="bkmrk-check-everything-is-">Check everything is working</h1>
 <p id="bkmrk-check-that-pods-are-">Check that pods are running using&nbsp;</p>
-<pre id="bkmrk-microk8s-kubectl-get"><code class="language-shell">microk8s kubectl get pods -n your-namespace\microk8s kubectl get services -n your-namespace\microk8s kubectl get endpoints -A</code></pre>
-<p id="bkmrk-check-that-the-netwo">Check that the network is fully functional:</p>
-<pre id="bkmrk-kubectl-exec--it-dep"><code class="language-shell">microk8s kubectl -n your-namespace exec -ti deployment/my-ueransim-gnb-ues -- /bin/bash\### inside pod\ip a\ping -I uesimtun0 1.1.1.1\### ip should have interface uesimtun0\### should be able to have WAN connectivity</code></pre>
+### Example of a working setup for microk8s:
+
+```bash
+microk8s kubectl get endpoints -A
+microk8s kubectl -n your-namespace exec -ti deployment/my-ueransim-gnb-ues -- /bin/bash
+
+# Inside pod
+ip a
+ping -I uesimtun0 1.1.1.1
+
+# IP should have interface uesimtun0
+# Should be able to have WAN connectivity
+```
 <p id="bkmrk-example-of-working-s">Example of working setup for microk8s:</p>
 <p id="bkmrk--0"><a href="microk8s-working.png" target="_blank" rel="noopener"><img src="https://github.com/hack-techv2/5G-playground/blob/master/Images/microk8s-working.png" alt="image-1726399892823.png" width="524" height="238"></a></p>
 <p id="bkmrk-example-of-functiona">Example of functional open5Gs setup:</p>
@@ -53,11 +63,47 @@ cd 5G-playground/scripts/
 <p id="bkmrk-%C2%A0-0">After setting up the infrastructure, prepare another Kali VM as the "attacking machine". Ensure connectivity between the Kali and Ubuntu VM.</p>
 <h1 id="bkmrk-troubleshooting">Troubleshooting</h1>
 <p id="bkmrk-try-upgrading-the-he">Try upgrading the Helm deployments</p>
-<pre id="bkmrk-%23%23%23-if-having-issues"><code class="language-shell">### if having issues with 5G network\microk8s helm upgrade my-open5gs $(pwd)/5G-playground/open5gs-2.2.3/open5gs --namespace your-namespace --values $(pwd)/5G-playground/helms/5gSA-values.yaml\### wait for at least 5 min before running the script for upgrading the GNB\### the open5gs takes time to setup\microk8s helm upgrade my-ueransim-gnb $(pwd)/5G-playground/ueransim-gnb-0.2.6/ueransim-gnb --namespace your-namespace --values $(pwd)/5G-playground/helms/my-gnb-ues-values.yaml\\### if having issues with web server\microk8s helm upgrade phpfpm-nginx-release $(pwd)/5G-playground/phpfpm-nginx-chart --namespace your-namespace</code></pre>
-<p id="bkmrk--2">Uninstalling and reinstalling the deployments may work as a last resort</p>
-<pre id="bkmrk-%23%23%23-uninstall-helm-c"><code class="language-shell">### uninstall helm charts, when done OR if errors cannot be fixed, uninstall and reinstall\microk8s helm uninstall -n your-namespace phpfpm-nginx-release\microk8s helm uninstall -n your-namespace my-ueransim-gnb\microk8s helm uninstall -n your-namespace my-open5gs\### WAIT for a few minutes before reinstalling the helm charts to ensure proper clean up by microk8s\### if not, prepare for a lot of issues to appear\\microk8s helm install my-open5gs $(pwd)/5G-playground/open5gs-2.2.3/open5gs --namespace your-namespace --values $(pwd)/5G-playground/helms/5gSA-values.yaml\sleep 10s ### best to wait at least 5 minutes before running next command\microk8s helm install my-ueransim-gnb $(pwd)/5G-playground/ueransim-gnb-0.2.6/ueransim-gnb --namespace your-namespace --values $(pwd)/5G-playground/helms/my-gnb-ues-values.yaml\microk8s helm install phpfpm-nginx-release $(pwd)/5G-playground/phpfpm-nginx-chart --namespace your-namespace\</code></pre>
+### If having issues with the 5G network:
+
+```bash
+microk8s helm upgrade my-open5gs $(pwd)/5G-playground/open5gs-2.2.3/open5gs --namespace your-namespace --values $(pwd)/5G-playground/helms/5gSA-values.yaml
+
+# Wait for at least 5 minutes before running the script for upgrading the GNB
+
+microk8s helm upgrade my-ueransim-gnb $(pwd)/5G-playground/ueransim-gnb-0.2.6/ueransim-gnb --namespace your-namespace --values $(pwd)/5G-playground/helms/my-gnb-ues-values.yaml
+```
+
+### If having issues with the web server:
+
+```bash
+microk8s helm upgrade phpfpm-nginx-release $(pwd)/5G-playground/phpfpm-nginx-chart --namespace your-namespace
+```
+
+1. If faced with the error, simply run `newgrp microk8s` on the command line.
+
+2. When running `microk8s kubectl get pods -n your-namespace` and faced with the below, the 5G network should not be affected:
+```bash
+microk8s helm uninstall -n your-namespace phpfpm-nginx-release
+microk8s helm uninstall -n your-namespace my-ueransim-gnb
+microk8s helm uninstall -n your-namespace my-open5gs
+```
+
+### Uninstalling and reinstalling the deployments
+- Wait for a few minutes before reinstalling the helm charts to ensure proper cleanup by microk8s.
+- If not, prepare for a lot of issues to appear:
+```bash
+microk8s helm install my-open5gs $(pwd)/5G-playground/open5gs-2.2.3/open5gs --namespace your-namespace --values $(pwd)/5G-playground/helms/5gSA-values.yaml
+sleep 10s # Best to wait at least 5 minutes before running next command
+microk8s helm install my-ueransim-gnb $(pwd)/5G-playground/ueransim-gnb-0.2.6/ueransim-gnb --namespace your-namespace --values $(pwd)/5G-playground/helms/my-gnb-ues-values.yaml
+microk8s helm install phpfpm-nginx-release $(pwd)/5G-playground/phpfpm-nginx-chart --namespace your-namespace
+```
 <h5 id="bkmrk-other-errors">Other Errors</h5>
-<p id="bkmrk-1.-if-faced-with-the">1. If faced with the below error, simply run <code>newgrp microk8s</code> on the command line.&nbsp;</p>
-<pre id="bkmrk-insufficient-permiss"><code class="language-shell">Insufficient permissions to access MicroK8s.\You can either try again with sudo or add the user ubu22 to the 'microk8s' group:\\&nbsp; &nbsp; sudo usermod -a -G microk8s ubu22\&nbsp; &nbsp; sudo chown -R ubu22 ~/.kube\\After this, reload the user groups either via a reboot or by running 'newgrp microk8s'.</code></pre>
+
+### Other Errors
+Insufficient permissions to access MicroK8s:
+```bash
+sudo usermod -a -G microk8s ubu22
+sudo chown -R ubu22 ~/.kube
+```
 <p id="bkmrk-2.%C2%A0when-running-micr">2.&nbsp;When running <code>microk8s kubectl get pods -n your-namespace</code> and faced with the below, the 5G network should not be affected.</p>
 <pre id="bkmrk-my-open5gs-populate-"><code class="language-">my-open5gs-populate-f7cc975f5-lh92b        0/1     Unknown   0                20m</code></pre>

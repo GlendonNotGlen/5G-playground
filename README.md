@@ -16,16 +16,17 @@ chmod +x ./5G-playground/scripts/ctfd-install.sh
 chmod +x ./5G-playground/scripts/ctfd-setup.sh
 ```
 
-### Run the scripts from the same directory where the project is cloned
+### Run the scripts from the same scripts directory
 
 ```bash
-./5G-playground/scripts/k8s-install.sh
-./5G-playground/scripts/k8s-setup.sh
-./5G-playground/scripts/ctfd-install.sh
+cd 5G-playground/scripts/
+./k8s-install.sh
+./k8s-setup.sh
+./ctfd-install.sh
 
 # Wait until the ctfd-install has finished installing before running the ctfd-setup script!
 
-./5G-playground/scripts/ctfd-setup.sh
+./ctfd-setup.sh
 ```
 <blockquote id="bkmrk-note%3A-the-ctfd-insta">
 <p id="bkmrk-note%3A-the-ctfd-scrip">NOTE: The ctfd-install script does NOT terminate. Read the output in the terminal to determine when the containers are up.&nbsp;</p>

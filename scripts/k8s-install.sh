@@ -3,8 +3,8 @@ sudo snap install microk8s --classic --channel=1.30
 # Allow user to run microk8s commands
 sudo usermod -a -G microk8s $USER
 # Allow user to gain access to the .kube caching directory
-mkdir -p $(pwd)/.kube
-chmod 0700 $(pwd)/.kube
+mkdir -p ../.kube
+chmod 0700 ../.kube
 # Apply group changes in the current session
 newgrp microk8s
 

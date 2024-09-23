@@ -19,7 +19,7 @@
 <p>Username: admin</p>
 <p>Password: admin</p>
 </blockquote>
-<p id="bkmrk-"><a href="https://github.com/hack-techv2/5G-playground/blob/master/Images/ctfd-1.png" target="_blank" rel="noopener"><img src="https://bookstack-detect-red.s3.amazonaws.com/uploads/images/gallery/2024-09/scaled-1680-/screenshot-2024-09-16-142328.png" alt="Screenshot 2024-09-16 142328.png"></a></p>
+<p id="bkmrk-"><a href="ctfd-1.png" target="_blank" rel="noopener"><img src="https://github.com/hack-techv2/5G-playground/blob/master/Images/ctfd-1.png" alt="Screenshot 2024-09-16 142328.png"></a></p>
 <p id="bkmrk-wait-for-5-10-min-af">Wait for 5-10 min after the installation process has completed for the open5GS setup to be fully functional.</p>
 <h4 id="bkmrk-check-everything-is-">Check everything is working</h4>
 <p id="bkmrk-check-that-pods-are-">Check that pods are running using&nbsp;</p>
@@ -27,9 +27,9 @@
 <p id="bkmrk-check-that-the-netwo">Check that the network is fully functional:</p>
 <pre id="bkmrk-kubectl-exec--it-dep"><code class="language-shell">microk8s kubectl -n your-namespace exec -ti deployment/my-ueransim-gnb-ues -- /bin/bash<br>### inside pod<br>ip a<br>ping -I uesimtun0 1.1.1.1<br>### ip should have interface uesimtun0<br>### should be able to have WAN connectivity</code></pre>
 <p id="bkmrk-example-of-working-s">Example of working setup for microk8s:</p>
-<p id="bkmrk--0"><a href="https://github.com/hack-techv2/5G-playground/blob/master/Images/microk8s-working.png" target="_blank" rel="noopener"><img src="https://bookstack-detect-red.s3.amazonaws.com/uploads/images/gallery/2024-09/scaled-1680-/image-1726399892823.png" alt="image-1726399892823.png" width="524" height="238"></a></p>
+<p id="bkmrk--0"><a href="microk8s-working.png" target="_blank" rel="noopener"><img src="https://github.com/hack-techv2/5G-playground/blob/master/Images/microk8s-working.png" alt="image-1726399892823.png" width="524" height="238"></a></p>
 <p id="bkmrk-example-of-functiona">Example of functional open5Gs setup:</p>
-<p id="bkmrk--1"><a href="https://github.com/hack-techv2/5G-playground/blob/master/Images/open5gs-working.png" target="_blank" rel="noopener"><img src="https://bookstack-detect-red.s3.amazonaws.com/uploads/images/gallery/2024-09/scaled-1680-/image-1726408615647.png" alt="image-1726408615647.png"></a></p>
+<p id="bkmrk--1"><a href="open5gs-working.png" target="_blank" rel="noopener"><img src="https://github.com/hack-techv2/5G-playground/blob/master/Images/open5gs-working.png" alt="image-1726408615647.png"></a></p>
 <p id="bkmrk-%C2%A0-0">After setting up the infrastructure, prepare another Kali VM as the "attacking machine". Ensure connectivity between the Kali and Ubuntu VM.</p>
 <h4 id="bkmrk-troubleshooting">Troubleshooting</h4>
 <p id="bkmrk-try-upgrading-the-he">Try upgrading the Helm deployments</p>

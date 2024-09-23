@@ -2,8 +2,11 @@
 <p id="bkmrk-get-a-ready-an-ubunt">Get ready an Ubuntu VM with <strong>at least 40GB of storage.</strong>&nbsp;</p>
 <p id="bkmrk-highly-recommended-t">Highly recommended to have a <strong>clean snapshot of the VM</strong> before proceeding with the installation.</p>
 <p id="bkmrk-recommended-to-have-">Recommended to have <strong>at least 8GB of RAM</strong> and at least 4 cores.&nbsp;</p>
-<p id="bkmrk-clone-the-github-pro">Clone the GitHub project.&nbsp;</p>
-<pre id="bkmrk-git-clone-https%3A%2F%2Fgi"><code class="language-shell">git clone https://github.com/hack-techv2/5G-playground\git clone git@github.com:hack-techv2/5G-playground.git</code></pre>
+## Clone the GitHub project
+
+```bash
+git clone https://github.com/hack-techv2/5G-playground.git
+```
 <h1 id="bkmrk-installing-the-setup">Installing the setup</h1>
 <p id="bkmrk-run-the-two-installa">Run the four installation scripts from the /scripts folder.</p>
 <p id="bkmrk-note%3A-ensure-the-dir">NOTE: Ensure the directories match the below commands. If not, please make the necessary changes.</p>

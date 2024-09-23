@@ -5,9 +5,28 @@
 <p id="bkmrk-clone-the-github-pro">Clone the GitHub project.&nbsp;</p>
 <pre id="bkmrk-git-clone-https%3A%2F%2Fgi"><code class="language-shell">git clone https://github.com/hack-techv2/5G-playground\git clone git@github.com:hack-techv2/5G-playground.git</code></pre>
 <h1 id="bkmrk-installing-the-setup">Installing the setup</h1>
-<p id="bkmrk-run-the-two-installa">Run the four installation scripts in the /scripts folder.</p>
+<p id="bkmrk-run-the-two-installa">Run the four installation scripts from the /scripts folder.</p>
 <p id="bkmrk-note%3A-ensure-the-dir">NOTE: Ensure the directories match the below commands. If not, please make the necessary changes.</p>
-<pre id="bkmrk-.%2Fctfd-setup.sh.%2Fk8s"><code class="language-shell">chmod +x ./5G-playground/scripts/k8s-install.sh<br />chmod +x ./5G-playground/scripts/k8s-setup.sh<br />chmod +x ./5G-playground/scripts/ctfd-install.sh<br />chmod +x ./5G-playground/scripts/ctfd-setup.sh<br />### run the scripts from the scripts directory<br />scripts/k8s-install.sh<br />scripts/k8s-setup.sh<br />scripts/ctfd-install.sh<br />### wait until the ctfd-install has finished installing before running the ctfd-setup script!<br />scripts/ctfd-setup.sh\</code></pre>
+## Installing the setup
+
+```bash
+chmod +x ./5G-playground/scripts/k8s-install.sh
+chmod +x ./5G-playground/scripts/k8s-setup.sh
+chmod +x ./5G-playground/scripts/ctfd-install.sh
+chmod +x ./5G-playground/scripts/ctfd-setup.sh
+```
+
+### Run the scripts from the same directory where the project is cloned
+
+```bash
+./5G-playground/scripts/k8s-install.sh
+./5G-playground/scripts/k8s-setup.sh
+./5G-playground/scripts/ctfd-install.sh
+
+# Wait until the ctfd-install has finished installing before running the ctfd-setup script!
+
+./5G-playground/scripts/ctfd-setup.sh
+```
 <blockquote id="bkmrk-note%3A-the-ctfd-insta">
 <p id="bkmrk-note%3A-the-ctfd-scrip">NOTE: The ctfd-install script does NOT terminate. Read the output in the terminal to determine when the containers are up.&nbsp;</p>
 <p>Should be able to see "ctfd-ctfd-1 &nbsp; | db is ready" message.&nbsp;</p>

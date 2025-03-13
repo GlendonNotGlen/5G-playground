@@ -46,9 +46,13 @@ The CTFd platform should be accessible through other VMs with http://[serverIP]:
 Wait for 5-10 min after the installation process has completed for the open5GS setup to be fully functional.
 
 # Validate Installation
-<p id="bkmrk-check-that-pods-are-">Check that pods are running using&nbsp;</p>
+## Pods
+```
+microk8s kubectl get pods -n your-namespace
+```
+<p id="bkmrk--0"><a href="microk8s-working.png" target="_blank" rel="noopener"><img src="https://github.com/hack-techv2/5G-playground/blob/master/Images/microk8s-working.png" alt="image-1726399892823.png" width="524" height="238"></a></p>
 
-## Example of a working setup for microk8s
+## Microk8s
 
 ```
 microk8s kubectl get endpoints -A
@@ -61,21 +65,22 @@ ping -I uesimtun0 1.1.1.1
 # IP should have interface uesimtun0
 # Should be able to have WAN connectivity
 ```
-<p id="bkmrk-example-of-working-s">Example of working setup for microk8s:</p>
-<p id="bkmrk--0"><a href="microk8s-working.png" target="_blank" rel="noopener"><img src="https://github.com/hack-techv2/5G-playground/blob/master/Images/microk8s-working.png" alt="image-1726399892823.png" width="524" height="238"></a></p>
-<p id="bkmrk-example-of-functiona">Example of functional open5Gs setup:</p>
+
+## Open5Gs
+```
+microk8s kubectl -n your-namespace exec -ti deployment/my-ueransim-gnb-ues -- /bin/bash
+```
 <p id="bkmrk--1"><a href="open5gs-working.png" target="_blank" rel="noopener"><img src="https://github.com/hack-techv2/5G-playground/blob/master/Images/open5gs-working.png" alt="image-1726408615647.png"></a></p>
-<p id="bkmrk-%C2%A0-0">After setting up the infrastructure, prepare another Kali VM as the "attacking machine". Ensure connectivity between the Kali and Ubuntu VM.</p>
-<h1 id="bkmrk-troubleshooting">Troubleshooting</h1>
-<p id="bkmrk-try-upgrading-the-he">Try upgrading the Helm deployments</p>
+After setting up the infrastructure, prepare another Kali VM as the "attacking machine". Ensure connectivity between the Kali and Ubuntu VM.
+
+# Troubleshooting
+Try upgrading the Helm deployments
 
 ## 5G Network
 
 ```
 microk8s helm upgrade my-open5gs $(pwd)/5G-playground/open5gs-2.2.3/open5gs --namespace your-namespace --values $(pwd)/5G-playground/helms/5gSA-values.yaml
-
 # Wait for at least 5 minutes before running the script for upgrading the GNB
-
 microk8s helm upgrade my-ueransim-gnb $(pwd)/5G-playground/ueransim-gnb-0.2.6/ueransim-gnb --namespace your-namespace --values $(pwd)/5G-playground/helms/my-gnb-ues-values.yaml
 ```
 
@@ -84,17 +89,12 @@ microk8s helm upgrade my-ueransim-gnb $(pwd)/5G-playground/ueransim-gnb-0.2.6/ue
 ```bash
 microk8s helm upgrade phpfpm-nginx-release $(pwd)/5G-playground/phpfpm-nginx-chart --namespace your-namespace
 ```
-
-1. If faced with the error, simply run `newgrp microk8s` on the command line.
-
-2. When running `microk8s kubectl get pods -n your-namespace` and faced with the below, the 5G network should not be affected:
+## Uninstalling and Reinstalling
 ```
 microk8s helm uninstall -n your-namespace phpfpm-nginx-release
 microk8s helm uninstall -n your-namespace my-ueransim-gnb
 microk8s helm uninstall -n your-namespace my-open5gs
 ```
-
-## Uninstalling and Reinstalling
 Wait for a few minutes before reinstalling the helm charts to ensure proper cleanup by microk8s.
 ```
 microk8s helm install my-open5gs $(pwd)/5G-playground/open5gs-2.2.3/open5gs --namespace your-namespace --values $(pwd)/5G-playground/helms/5gSA-values.yaml
@@ -104,9 +104,12 @@ microk8s helm install phpfpm-nginx-release $(pwd)/5G-playground/phpfpm-nginx-cha
 ```
 ## Other Errors
 Insufficient permissions to access MicroK8s:
-```bash
+```
 sudo usermod -a -G microk8s ubu22
 sudo chown -R ubu22 ~/.kube
+newgrp microk8s
 ```
-<p id="bkmrk-2.%C2%A0when-running-micr">When running <code>microk8s kubectl get pods -n your-namespace</code> and faced with the below, the 5G network should not be affected.</p>
-<pre id="bkmrk-my-open5gs-populate-"><code class="language-">my-open5gs-populate-f7cc975f5-lh92b        0/1     Unknown   0                20m</code></pre>
+When running <code>microk8s kubectl get pods -n your-namespace</code> and faced with the below, the 5G network should not be affected  
+```
+my-open5gs-populate-f7cc975f5-lh92b        0/1     Unknown   0                20m</code>
+```

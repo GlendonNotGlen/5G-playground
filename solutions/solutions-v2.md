@@ -3,7 +3,7 @@
 Find the Subscriber Permanent Identifier (SUPI) / International Mobile Subscriber Identity (IMSI) of the User Equipment (UE).
 
 ### Solution
-First, filter the protocol by `nas-5gs`. NAS stands for Non-Access Stratum, a protocol that enables communication between 5G User Equipment (UE) and the 5G core network. This narrows the capture down to the relevant packets.
+Filter the protocol by `nas-5gs`. NAS stands for Non-Access Stratum, a protocol that enables communication between 5G User Equipment (UE) and the 5G core network. This narrows the capture down to the relevant packets.
 
 Take note of packets with Info columns which denote authentication or related terms. Examine the first packet in the filtered list, which indicates an registration request. Expand the fields for more information.
 ![image](https://github.com/user-attachments/assets/3bc7d524-c12f-4546-af2f-733f904af07a)
@@ -27,5 +27,5 @@ Under HTTP2, specify the entire range of ports from `1-65535`. If Wireshark cras
 Under NAS-5GS, check the box for 'Try to detect and decode 5g-EA0 ciphered messages'.
 ![image](https://github.com/user-attachments/assets/1d3df23a-a7e4-4051-ab63-60d29a498f46)
 
-After the settings have ben applied, using the `nas-5gs` protocol filter again, the SUPI / IMSI can be seen in other packets more clearly as well.
+After the settings have ben applied, using the `nas-5gs` protocol filter again, the SUPI / IMSI `999705678123492` can be seen in other packets more clearly as well.
 ![image](https://github.com/user-attachments/assets/bc628821-f4bd-4416-a188-ca29397caf8c)

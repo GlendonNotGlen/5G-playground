@@ -5,7 +5,7 @@ Find the Subscriber Permanent Identifier (SUPI) / International Mobile Subscribe
 ### Solution
 Filter the protocol by `nas-5gs`. NAS stands for Non-Access Stratum, a protocol that enables communication between 5G User Equipment (UE) and the 5G core network. This narrows the capture down to the relevant packets.
 
-Take note of packets with Info columns which denote authentication or related terms. Examine the first packet in the filtered list, which indicates an registration request. Expand the fields for more information.
+Take note of packets with Info columns which denote initiation, authentication or related terms. Examine the first packet in the filtered list, which indicates a registration request. Expand the fields for more information.
 ![image](https://github.com/user-attachments/assets/3bc7d524-c12f-4546-af2f-733f904af07a)
 
 Referring to the diagram below, the SUPI / IMSI is a 15 - 16-digit string.
